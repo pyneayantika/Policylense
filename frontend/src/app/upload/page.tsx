@@ -12,18 +12,10 @@ import { ApiError, getFamily as apiFetchFamily, getPolicyStatus } from "@/lib/ap
 import { FileText, CheckCircle2, ArrowRight, Sparkles, Home, Clock, AlertCircle } from "lucide-react";
 import type { Policy } from "@/lib/types";
 
-function formatFileSize(bytes: number | null | undefined): string {
-  if (!bytes) return "";
-  if (bytes >= 1_000_000) return `${(bytes / 1_000_000).toFixed(1)} MB`;
-  if (bytes >= 1_000) return `${(bytes / 1_000).toFixed(0)} KB`;
-  return `${bytes} B`;
-}
-
 function PolicyCard({ policy, memberName }: { policy: Policy; memberName?: string }) {
   const status = policy.ingestion_status;
   const isComplete = status === "completed";
   const isFailed = status === "failed";
-  const isProcessing = !isComplete && !isFailed;
 
   const borderColor = isFailed
     ? "border-red-200 dark:border-red-800"
