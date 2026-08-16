@@ -1,0 +1,29 @@
+{
+  "policy_name": "Star Health Comprehensive (sample wording)",
+  "source": "locally generated IRDAI-style digital PDF for Phase 1 tests",
+  "filename": "ramesh_star_health_sample.pdf",
+  "expected_facts": {
+    "sum_insured": 500000,
+    "copay_percent": 20,
+    "room_rent_limit": 5000,
+    "room_rent_type": "per_day",
+    "ped_waiting_months": 36,
+    "initial_waiting_months": 1,
+    "specific_disease_waiting_months": 24,
+    "network_required": true,
+    "pre_auth_required": true
+  },
+  "expected_exclusions": [
+    "Cosmetic surgery",
+    "Dental unless requiring hospitalization",
+    "Self-inflicted injuries"
+  ],
+  "expected_sections": [
+    "coverage",
+    "exclusions",
+    "waiting_period",
+    "copay",
+    "sublimits",
+    "claim_process"
+  ]
+}
