@@ -26,15 +26,15 @@ function PolicyCard({ policy, memberName }: { policy: Policy; memberName?: strin
   const isProcessing = !isComplete && !isFailed;
 
   const borderColor = isFailed
-    ? "border-red-200"
+    ? "border-red-200 dark:border-red-800"
     : isComplete
-    ? "border-emerald-200"
-    : "border-amber-200";
+    ? "border-emerald-200 dark:border-emerald-800"
+    : "border-amber-200 dark:border-amber-800";
   const bgColor = isFailed
-    ? "bg-red-50/40"
+    ? "bg-red-50/40 dark:bg-red-900/20"
     : isComplete
-    ? "bg-white"
-    : "bg-amber-50/40";
+    ? "bg-white dark:bg-zinc-800"
+    : "bg-amber-50/40 dark:bg-amber-900/20";
   const iconBg = isFailed
     ? "bg-red-100 text-red-700"
     : isComplete
@@ -51,10 +51,10 @@ function PolicyCard({ policy, memberName }: { policy: Policy; memberName?: strin
           <FileText size={20} />
         </div>
         <div>
-          <p className="font-semibold text-stone-900 text-sm">
+          <p className="font-semibold text-stone-900 dark:text-zinc-100 text-sm">
             {policy.pdf_filename || "Policy document"}
           </p>
-          <p className="text-xs text-stone-500">
+          <p className="text-xs text-stone-500 dark:text-zinc-400">
             {[displayType, memberName].filter(Boolean).join(" · ")}
           </p>
         </div>
@@ -185,22 +185,22 @@ export default function UploadPage() {
   return (
     <div className="max-w-3xl space-y-8">
       {/* Header Banner */}
-      <div className="flex flex-col gap-2 border-b border-stone-300/80 pb-5">
+      <div className="flex flex-col gap-2 border-b border-stone-300/80 dark:border-zinc-700 pb-5">
         <div className="flex items-center gap-2">
           <Link
             href="/"
-            className="text-xs font-semibold text-stone-500 hover:text-stone-900 transition-colors"
+            className="text-xs font-semibold text-stone-500 dark:text-zinc-400 hover:text-stone-900 dark:hover:text-zinc-100 transition-colors"
           >
             ← Back
           </Link>
-          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#1a6b5a] bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-200">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#1a6b5a] bg-emerald-100/80 dark:bg-emerald-900/30 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-700">
             Step 2 of 3
           </span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900">
+        <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-zinc-100">
           Upload Policies
         </h1>
-        <p className="text-sm text-stone-600 leading-relaxed">
+        <p className="text-sm text-stone-600 dark:text-zinc-400 leading-relaxed">
           Upload your insurance policy PDFs. We&apos;ll extract and analyze the coverage details automatically.
         </p>
       </div>
@@ -234,7 +234,7 @@ export default function UploadPage() {
       {/* Uploaded Policy Cards — driven by real data */}
       {policies.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-base font-bold text-stone-900">Uploaded Policy Documents</h2>
+          <h2 className="text-base font-bold text-stone-900 dark:text-zinc-100">Uploaded Policy Documents</h2>
           {policies.map((policy) => (
             <PolicyCard
               key={policy.id}
@@ -246,11 +246,11 @@ export default function UploadPage() {
       )}
 
       {/* Demo Pre-loader Shortcut & View Dashboard CTA */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-300/80">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-300/80 dark:border-zinc-700">
         <button
           type="button"
           onClick={loadDemoPolicies}
-          className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2.5 text-xs font-semibold text-[#1a6b5a] hover:bg-emerald-100 transition-colors"
+          className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2.5 text-xs font-semibold text-[#1a6b5a] hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors"
         >
           <Sparkles size={16} />
           Pre-load Sharma Family Policies (HDFC Ergo + Max Life)
@@ -258,7 +258,7 @@ export default function UploadPage() {
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] px-8 py-3 text-sm font-semibold text-white shadow-md hover:bg-black transition-all"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] dark:bg-zinc-100 px-8 py-3 text-sm font-semibold text-white dark:text-zinc-900 shadow-md hover:bg-black dark:hover:bg-zinc-200 transition-all"
         >
           <Home size={16} />
           <span>View Dashboard</span>

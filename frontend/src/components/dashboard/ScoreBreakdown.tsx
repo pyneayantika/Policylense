@@ -28,10 +28,10 @@ export function ScoreBreakdown({ breakdown }: ScoreBreakdownProps) {
   const entries = Object.entries(data);
 
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm space-y-4">
-      <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-        <h3 className="text-sm font-bold text-stone-900">Score Dimension Breakdown</h3>
-        <span className="text-xs font-mono text-stone-500">6 Indicators</span>
+    <div className="rounded-2xl border border-stone-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm space-y-4">
+      <div className="flex items-center justify-between border-b border-stone-100 dark:border-zinc-700 pb-3">
+        <h3 className="text-sm font-bold text-stone-900 dark:text-zinc-100">Score Dimension Breakdown</h3>
+        <span className="text-xs font-mono text-stone-500 dark:text-zinc-400">6 Indicators</span>
       </div>
 
       <ul className="space-y-3">
@@ -43,11 +43,11 @@ export function ScoreBreakdown({ breakdown }: ScoreBreakdownProps) {
 
           return (
             <li key={key} className="space-y-1">
-              <div className="flex justify-between text-xs font-medium text-stone-700">
+              <div className="flex justify-between text-xs font-medium text-stone-700 dark:text-zinc-300">
                 <span>{LABELS[key] || key.replace(/_/g, " ")}</span>
                 <span className="font-mono font-bold">{clamped} / 100</span>
               </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-stone-100">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-stone-100 dark:bg-zinc-700">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${barColor}`}
                   style={{ width: `${clamped}%` }}

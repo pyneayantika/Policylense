@@ -20,8 +20,8 @@ export function UploadProgress({ step, failed, error }: UploadProgressProps) {
   if (step < 0 && !failed) return null;
 
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm space-y-4">
-      <h3 className="text-sm font-bold text-stone-900 flex items-center justify-between">
+    <div className="rounded-2xl border border-stone-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm space-y-4">
+      <h3 className="text-sm font-bold text-stone-900 dark:text-zinc-100 flex items-center justify-between">
         <span>Analysis Progress</span>
         {step >= 4 && !failed && (
           <span className="text-xs font-mono font-semibold text-[#1a6b5a] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
@@ -45,7 +45,7 @@ export function UploadProgress({ step, failed, error }: UploadProgressProps) {
                     ? "bg-emerald-100 text-[#1a6b5a] border border-emerald-300"
                     : current
                     ? "bg-amber-100 text-amber-800 border border-amber-300 animate-pulse"
-                    : "bg-stone-100 text-stone-400"
+                    : "bg-stone-100 dark:bg-zinc-700 text-stone-400 dark:text-zinc-500"
                 }`}
               >
                 {done ? (
@@ -63,7 +63,7 @@ export function UploadProgress({ step, failed, error }: UploadProgressProps) {
                     ? "text-[#1a6b5a]"
                     : current
                     ? "text-amber-800 font-semibold"
-                    : "text-stone-400"
+                    : "text-stone-400 dark:text-zinc-500"
                 }`}
               >
                 {done ? `✅ ${label}` : label}
@@ -74,7 +74,7 @@ export function UploadProgress({ step, failed, error }: UploadProgressProps) {
       </ol>
 
       {failed && error && (
-        <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs text-red-700">
+        <div className="flex items-start gap-2 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 p-3.5 text-xs text-red-700 dark:text-red-400">
           <AlertCircle size={16} className="shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>

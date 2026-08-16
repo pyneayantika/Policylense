@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} ${dmMono.variable}`}>
-      <body className="bg-[#f0eee9] text-[#1a1a1a] font-sans antialiased min-h-screen flex flex-col">
+      <body className="bg-[#f0eee9] dark:bg-[#0f1419] text-[#1a1a1a] dark:text-zinc-200 font-sans antialiased min-h-screen flex flex-col transition-colors duration-300">
         <Providers>
           <Navbar />
           <div className="mx-auto flex w-full max-w-6xl flex-1 pb-16 md:pb-0">
@@ -40,7 +40,7 @@ export default function RootLayout({
               {children}
             </main>
           </div>
-          <footer className="border-t border-stone-300/60 bg-[#e7e4dc] px-4 py-3 text-center text-xs text-stone-600 hidden md:block">
+          <footer className="border-t border-stone-300/60 dark:border-zinc-700 bg-[#e7e4dc] dark:bg-zinc-900 px-4 py-3 text-center text-xs text-stone-600 dark:text-zinc-400 hidden md:block">
             PolicyLens provides indicative protection analysis based on uploaded documents. This is protection visibility, not financial advice.
           </footer>
           <BottomNav />

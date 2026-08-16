@@ -44,9 +44,9 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="hidden w-56 shrink-0 border-r border-stone-300/70 bg-[#e8e5de]/50 p-4 md:block">
+    <aside className="hidden w-56 shrink-0 border-r border-stone-300/70 dark:border-zinc-700 bg-[#e8e5de]/50 dark:bg-zinc-900/80 p-4 md:block">
       <div className="mb-4 px-2">
-        <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-stone-500">
+        <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-stone-500 dark:text-zinc-500">
           Navigation
         </p>
       </div>
@@ -61,11 +61,11 @@ export function Sidebar() {
               href={link.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
                 active
-                  ? "bg-[#1a6b5a] text-white shadow-sm"
-                  : "text-stone-700 hover:bg-stone-200/70 hover:text-stone-900"
+                  ? "bg-[#1a6b5a] text-white shadow-sm dark:shadow-emerald-900/30"
+                  : "text-stone-700 dark:text-zinc-300 hover:bg-stone-200/70 dark:hover:bg-zinc-800 hover:text-stone-900 dark:hover:text-zinc-100"
               }`}
             >
-              <Icon size={18} className={active ? "text-emerald-200" : "text-stone-500"} />
+              <Icon size={18} className={active ? "text-emerald-200" : "text-stone-500 dark:text-zinc-500"} />
               {link.label}
             </Link>
           );
@@ -78,14 +78,14 @@ export function Sidebar() {
             <button
               type="button"
               onClick={() => setShowConfirm(true)}
-              className="flex w-full items-center gap-2 rounded-lg border border-red-200 bg-red-50/80 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100 transition-colors"
+              className="flex w-full items-center gap-2 rounded-lg border border-red-200 dark:border-red-800 bg-red-50/80 dark:bg-red-900/30 px-3 py-2 text-xs font-semibold text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
             >
               <Trash2 size={14} />
               Start Fresh
             </button>
           ) : (
-            <div className="rounded-xl border border-red-300 bg-red-50 p-3 space-y-2">
-              <p className="text-[11px] font-semibold text-red-800">
+            <div className="rounded-xl border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-900/30 p-3 space-y-2">
+              <p className="text-[11px] font-semibold text-red-800 dark:text-red-300">
                 Delete all data? This cannot be undone.
               </p>
               <div className="flex gap-2">
@@ -102,7 +102,7 @@ export function Sidebar() {
                   type="button"
                   onClick={() => setShowConfirm(false)}
                   disabled={resetting}
-                  className="flex-1 rounded-lg border border-stone-300 bg-white px-2 py-1.5 text-[11px] font-semibold text-stone-700 hover:bg-stone-50 transition-colors"
+                  className="flex-1 rounded-lg border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 py-1.5 text-[11px] font-semibold text-stone-700 dark:text-zinc-300 hover:bg-stone-50 dark:hover:bg-zinc-700 transition-colors"
                 >
                   Cancel
                 </button>
@@ -112,12 +112,12 @@ export function Sidebar() {
         </div>
       )}
 
-      <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50/80 p-3 text-xs text-amber-900 shadow-2xs">
-        <div className="flex items-center gap-1.5 font-semibold text-amber-800 mb-1">
-          <ShieldAlert size={14} className="text-amber-600 shrink-0" />
+      <div className="mt-6 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-900/30 p-3 text-xs text-amber-900 dark:text-amber-300 shadow-2xs">
+        <div className="flex items-center gap-1.5 font-semibold text-amber-800 dark:text-amber-300 mb-1">
+          <ShieldAlert size={14} className="text-amber-600 dark:text-amber-500 shrink-0" />
           <span>Indicative Analysis</span>
         </div>
-        <p className="text-[11px] text-amber-800/90 leading-snug">
+        <p className="text-[11px] text-amber-800/90 dark:text-amber-400/90 leading-snug">
           Insights cite policy clauses. Not financial or insurance sales advice.
         </p>
       </div>

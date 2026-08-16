@@ -46,17 +46,17 @@ export function PolicyUploader({ members, disabled, onUpload }: PolicyUploaderPr
     : "RS";
 
   return (
-    <div className="space-y-6 rounded-2xl border border-stone-300 bg-white p-6 shadow-sm">
+    <div className="space-y-6 rounded-2xl border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
       {/* 1. Member Selector */}
       <div>
-        <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-stone-600 mb-2">
+        <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-stone-600 dark:text-zinc-400 mb-2">
           FOR MEMBER
         </label>
         <div className="relative">
           <select
             value={memberId}
             onChange={(e) => setMemberId(e.target.value)}
-            className="w-full appearance-none rounded-xl border-2 border-[#1a6b5a] bg-emerald-50/30 px-4 py-3 pl-12 text-sm font-semibold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/30"
+            className="w-full appearance-none rounded-xl border-2 border-[#1a6b5a] dark:border-emerald-600 bg-emerald-50/30 dark:bg-zinc-700 px-4 py-3 pl-12 text-sm font-semibold text-stone-900 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/30"
           >
             {members.map((m) => {
               const init = m.name
@@ -80,7 +80,7 @@ export function PolicyUploader({ members, disabled, onUpload }: PolicyUploaderPr
 
       {/* 2. Type Selector Tabs */}
       <div>
-        <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-stone-600 mb-2">
+        <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-stone-600 dark:text-zinc-400 mb-2">
           POLICY TYPE
         </label>
         <div className="grid grid-cols-2 gap-3">
@@ -90,10 +90,10 @@ export function PolicyUploader({ members, disabled, onUpload }: PolicyUploaderPr
             className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-sm font-semibold transition-all ${
               policyType === "health"
                 ? "bg-[#1a6b5a] text-white shadow-sm ring-2 ring-[#1a6b5a]"
-                : "border border-stone-300 bg-white text-stone-700 hover:bg-stone-50"
+                : "border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-stone-700 dark:text-zinc-300 hover:bg-stone-50 dark:hover:bg-zinc-600"
             }`}
           >
-            <HeartPulse size={18} className={policyType === "health" ? "text-emerald-200" : "text-stone-500"} />
+            <HeartPulse size={18} className={policyType === "health" ? "text-emerald-200" : "text-stone-500 dark:text-zinc-400"} />
             <span>Health Insurance</span>
           </button>
 
@@ -103,10 +103,10 @@ export function PolicyUploader({ members, disabled, onUpload }: PolicyUploaderPr
             className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-sm font-semibold transition-all ${
               policyType === "life"
                 ? "bg-[#1a6b5a] text-white shadow-sm ring-2 ring-[#1a6b5a]"
-                : "border border-stone-300 bg-white text-stone-700 hover:bg-stone-50"
+                : "border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-stone-700 dark:text-zinc-300 hover:bg-stone-50 dark:hover:bg-zinc-600"
             }`}
           >
-            <Shield size={18} className={policyType === "life" ? "text-emerald-200" : "text-stone-500"} />
+            <Shield size={18} className={policyType === "life" ? "text-emerald-200" : "text-stone-500 dark:text-zinc-400"} />
             <span>Life Insurance</span>
           </button>
         </div>
@@ -129,14 +129,14 @@ export function PolicyUploader({ members, disabled, onUpload }: PolicyUploaderPr
             ? "border-[#1a6b5a] bg-emerald-50/60"
             : file
             ? "border-emerald-300 bg-emerald-50/20"
-            : "border-stone-300 bg-stone-50/50 hover:bg-stone-100/50"
+            : "border-stone-300 dark:border-zinc-600 bg-stone-50/50 dark:bg-zinc-700/30 hover:bg-stone-100/50 dark:hover:bg-zinc-700/50"
         }`}
       >
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-100 text-[#1a6b5a] mb-3">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-100 dark:bg-zinc-700 text-[#1a6b5a] mb-3">
           <UploadCloud size={24} />
         </div>
-        <p className="text-sm font-bold text-stone-900">Drop PDF here</p>
-        <p className="mt-1 text-xs text-stone-500">
+        <p className="text-sm font-bold text-stone-900 dark:text-zinc-100">Drop PDF here</p>
+        <p className="mt-1 text-xs text-stone-500 dark:text-zinc-400">
           or tap to browse · Max 10MB (Digitally generated English PDFs)
         </p>
 

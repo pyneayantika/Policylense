@@ -39,15 +39,15 @@ export function MemberCard({ member }: MemberCardProps) {
   }
 
   return (
-    <div className="flex flex-col justify-between rounded-2xl border border-stone-200 bg-white p-4 shadow-2xs hover:shadow-sm hover:border-stone-300 transition-all">
+    <div className="flex flex-col justify-between rounded-2xl border border-stone-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-2xs hover:shadow-sm hover:border-stone-300 dark:hover:border-zinc-600 transition-all">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0f2922] font-mono font-bold text-emerald-300 text-xs border border-emerald-900 shadow-2xs">
             {initials}
           </div>
           <div>
-            <h4 className="font-bold text-stone-900 text-sm leading-tight">{member.name}</h4>
-            <span className="text-[11px] capitalize text-stone-500 font-medium">
+            <h4 className="font-bold text-stone-900 dark:text-zinc-100 text-sm leading-tight">{member.name}</h4>
+            <span className="text-[11px] capitalize text-stone-500 dark:text-zinc-400 font-medium">
               {member.relationship}
             </span>
           </div>
@@ -60,23 +60,23 @@ export function MemberCard({ member }: MemberCardProps) {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100 text-xs">
-        <div className="rounded-lg bg-stone-50 p-2 border border-stone-200/60">
-          <span className="text-[10px] font-mono font-semibold uppercase text-stone-400 block">HEALTH</span>
-          <span className="font-bold text-stone-900">
+      <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100 dark:border-zinc-700 text-xs">
+        <div className="rounded-lg bg-stone-50 dark:bg-zinc-700/50 p-2 border border-stone-200/60 dark:border-zinc-600">
+          <span className="text-[10px] font-mono font-semibold uppercase text-stone-400 dark:text-zinc-500 block">HEALTH</span>
+          <span className="font-bold text-stone-900 dark:text-zinc-100">
             {health ? displayAmount(health, "₹10L") : "₹10L"}
           </span>
         </div>
 
-        <div className="rounded-lg bg-stone-50 p-2 border border-stone-200/60">
-          <span className="text-[10px] font-mono font-semibold uppercase text-stone-400 block">LIFE</span>
+        <div className="rounded-lg bg-stone-50 dark:bg-zinc-700/50 p-2 border border-stone-200/60 dark:border-zinc-600">
+          <span className="text-[10px] font-mono font-semibold uppercase text-stone-400 dark:text-zinc-500 block">LIFE</span>
           <span
             className={`font-bold ${
               member.relationship === "spouse" && !life
                 ? "text-red-600"
                 : member.relationship === "child"
-                ? "text-stone-400 font-normal"
-                : "text-stone-900"
+                ? "text-stone-400 dark:text-zinc-500 font-normal"
+                : "text-stone-900 dark:text-zinc-100"
             }`}
           >
             {member.relationship === "child"

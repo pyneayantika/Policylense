@@ -12,11 +12,19 @@
   --color-bg: #f0eee9;
 }
 
+.dark {
+  --color-bg: #0f1419;
+}
+
 body {
-  background: #f0eee9;
+  background: var(--color-bg);
   color: #1a1a1a;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   min-height: 100vh;
+}
+
+.dark body {
+  color: #e4e4e7;
 }
 
 .smart-text-term {
@@ -38,3 +46,13 @@ body {
   transform: translateY(-1px);
 }
 
+.dark .smart-text-term {
+  background-color: #78350f;
+  border-bottom-color: #f59e0b;
+  color: #fde68a;
+}
+
+.dark .smart-text-term:hover {
+  background-color: #92400e;
+  color: #fef3c7;
+}

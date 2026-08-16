@@ -29,12 +29,12 @@ export function WhyThisMatters({ flag }: WhyThisMattersProps) {
     "Exceeding limits or missing coverage can trigger out-of-pocket expenses during claims. Tap highlighted terms to see personalized calculations.";
 
   return (
-    <div className="rounded-xl border border-stone-200/80 bg-stone-100/70 p-3.5 text-xs text-stone-700 space-y-1">
-      <div className="flex items-center gap-1.5 font-bold text-stone-900">
+    <div className="rounded-xl border border-stone-200/80 dark:border-zinc-700 bg-stone-100/70 dark:bg-zinc-800/50 p-3.5 text-xs text-stone-700 dark:text-zinc-300 space-y-1">
+      <div className="flex items-center gap-1.5 font-bold text-stone-900 dark:text-zinc-100">
         <HelpCircle size={14} className="text-[#1a6b5a]" />
         <span>Why This Matters:</span>
       </div>
-      <div className="text-stone-600 leading-relaxed pl-5">
+      <div className="text-stone-600 dark:text-zinc-400 leading-relaxed pl-5">
         <SmartText text={text} />
       </div>
     </div>

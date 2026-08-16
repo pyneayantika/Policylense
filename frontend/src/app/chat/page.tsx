@@ -85,17 +85,17 @@ export default function ChatPage() {
   return (
     <div className="max-w-4xl space-y-6 flex flex-col h-[calc(100vh-10rem)]">
       {/* Header Banner */}
-      <div className="flex items-center justify-between border-b border-stone-300/80 pb-4 shrink-0">
+      <div className="flex items-center justify-between border-b border-stone-300/80 dark:border-zinc-700 pb-4 shrink-0">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+            <h1 className="text-2xl font-bold tracking-tight text-stone-900 dark:text-zinc-100">
               Ask PolicyLens
             </h1>
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-mono font-bold text-[#1a6b5a] border border-emerald-300">
               <Sparkles size={12} /> AI-Powered
             </span>
           </div>
-          <p className="text-xs text-stone-500 mt-0.5">
+          <p className="text-xs text-stone-500 dark:text-zinc-400 mt-0.5">
             Grounded in your uploaded policy clauses · Answers cite specific section numbers
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function ChatPage() {
         ))}
 
         {busy && (
-          <div className="flex items-center gap-2 text-xs font-medium text-stone-500 animate-pulse bg-stone-100 p-3 rounded-2xl w-fit">
+          <div className="flex items-center gap-2 text-xs font-medium text-stone-500 dark:text-zinc-400 animate-pulse bg-stone-100 dark:bg-zinc-800 p-3 rounded-2xl w-fit">
             <Bot size={16} className="text-[#1a6b5a] animate-spin" />
             <span>PolicyLens is retrieving relevant policy clauses...</span>
           </div>
@@ -120,8 +120,8 @@ export default function ChatPage() {
       </div>
 
       {/* Suggested Follow-up Chips */}
-      <div className="shrink-0 space-y-2 pt-2 border-t border-stone-200">
-        <span className="text-[11px] font-mono font-semibold text-stone-500 uppercase">
+      <div className="shrink-0 space-y-2 pt-2 border-t border-stone-200 dark:border-zinc-700">
+        <span className="text-[11px] font-mono font-semibold text-stone-500 dark:text-zinc-400 uppercase">
           Suggested Follow-ups:
         </span>
         <div className="flex flex-wrap gap-2">
@@ -131,7 +131,7 @@ export default function ChatPage() {
               type="button"
               disabled={busy}
               onClick={() => handleSend(chip)}
-              className="rounded-full border border-emerald-300 bg-emerald-50/80 px-3.5 py-1.5 text-xs font-medium text-[#1a6b5a] hover:bg-emerald-100 transition-colors shadow-2xs"
+              className="rounded-full border border-emerald-300 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-900/30 px-3.5 py-1.5 text-xs font-medium text-[#1a6b5a] hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors shadow-2xs"
             >
               {chip} →
             </button>
@@ -152,7 +152,7 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about your policies..."
-          className="flex-1 rounded-2xl border border-stone-300 bg-white px-4 py-3 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 shadow-2xs"
+          className="flex-1 rounded-2xl border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 py-3 text-sm dark:text-zinc-200 focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 shadow-2xs"
         />
         <button
           type="submit"
