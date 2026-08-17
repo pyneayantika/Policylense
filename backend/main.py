@@ -5,6 +5,8 @@ WHY: This file only wires the app — CORS, error handlers, routers, health.
 Business logic lives in services/ and core/, so routes stay thin later.
 """
 
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -42,6 +44,8 @@ app.include_router(concepts.router, prefix="/api/v1")
 @app.on_event("startup")
 def on_startup() -> None:
     """Create tables if missing so a fresh Railway container still boots."""
+    for d in [settings.upload_dir, settings.chroma_path]:
+        Path(d).mkdir(parents=True, exist_ok=True)
     create_all_tables()
     print("Policy Intelligence backend started")
 
