@@ -19,7 +19,7 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PolicyLens — Insurance Protection Visibility",
+  title: "PolicyLens — Insurance Protection Intelligence",
   description:
     "Family protection dashboard, gap flags, and what-if scenario simulations grounded in your policy clauses.",
 };

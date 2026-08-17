@@ -41,7 +41,7 @@ export function Navbar() {
                 PolicyLens
               </span>
               <span className="text-[10px] font-mono font-medium text-stone-500 dark:text-zinc-500 uppercase tracking-wider">
-                Protection Visibility
+                Insurance Protection Intelligence
               </span>
             </div>
           </Link>
