@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFamily } from "@/context/FamilyContext";
-import { Plus, UserPlus, ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Trash2, Loader2 } from "lucide-react";
+import { Plus, UserPlus, ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Trash2, Loader2, Users, Shield, HeartPulse } from "lucide-react";
 
 const RELATIONSHIPS = [
   { value: "self", label: "Self" },
@@ -62,7 +62,6 @@ export default function FamilySetupPage() {
     }
   }
 
-  // Pre-loader shortcut for instant 1-click Sharma Family demo setup
   async function loadDemoData() {
     setBusy(true);
     setLocalError(null);
@@ -87,47 +86,68 @@ export default function FamilySetupPage() {
 
   return (
     <div className="max-w-3xl space-y-8">
-      {/* Header Banner */}
-      <div className="flex flex-col gap-2 border-b border-stone-300/80 dark:border-zinc-700 pb-5">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#1a6b5a] bg-emerald-100/80 dark:bg-emerald-900/30 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-700">
-            Step 1 of 3
-          </span>
-          <span className="text-xs text-stone-500 dark:text-zinc-400">• Setup Household Profile</span>
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-2xl gradient-hero p-8 text-white">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold tracking-wide">
+              <ShieldCheck size={12} />
+              Step 1 of 3
+            </span>
+            <span className="text-xs text-emerald-200/80">Setup Household Profile</span>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Set up your family
+          </h1>
+          <p className="mt-2 text-sm text-emerald-100/80 leading-relaxed max-w-lg">
+            We&apos;ll analyze coverage for everyone. Add all family members covered under your insurance policies.
+          </p>
+          <div className="flex items-center gap-4 mt-5">
+            <div className="flex items-center gap-2 text-[11px] text-emerald-200/70">
+              <HeartPulse size={14} />
+              <span>Health Insurance</span>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] text-emerald-200/70">
+              <Shield size={14} />
+              <span>Life Insurance</span>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] text-emerald-200/70">
+              <Users size={14} />
+              <span>Full Family Coverage</span>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-zinc-100">
-          Set up your family
-        </h1>
-        <p className="text-sm text-stone-600 dark:text-zinc-400 leading-relaxed">
-          We&apos;ll analyze coverage for everyone. Add all family members covered under your insurance policies.
-        </p>
       </div>
 
-      {/* Step 1: Family Name Form */}
+      {/* Step 1: Family Name */}
       {!family ? (
-        <div className="rounded-2xl border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
+        <div className="card-elevated p-6">
           <h2 className="text-base font-bold text-stone-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
-            <ShieldCheck size={18} className="text-[#1a6b5a]" />
-            1. Name Your Family Profile
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-950/40">
+              <ShieldCheck size={16} className="text-[#1a6b5a]" />
+            </div>
+            Name Your Family Profile
           </h2>
           <form onSubmit={onCreateFamily} className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
-              <label className="block text-xs font-mono font-medium text-stone-600 dark:text-zinc-400 mb-1">
-                FAMILY NAME
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-stone-400 dark:text-zinc-500 mb-1.5">
+                Family Name
               </label>
               <input
                 type="text"
                 value={familyName}
                 onChange={(e) => setFamilyName(e.target.value)}
                 placeholder="Sharma Family"
-                className="w-full rounded-xl border border-stone-300 dark:border-zinc-600 px-4 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-stone-50/50 dark:bg-zinc-700 dark:text-zinc-200 dark:placeholder-zinc-400"
+                className="w-full rounded-xl border border-stone-200 dark:border-zinc-700 px-4 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-stone-50/50 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500"
               />
             </div>
             <div className="flex items-end">
               <button
                 type="submit"
                 disabled={busy || !familyName.trim()}
-                className="w-full sm:w-auto rounded-xl bg-[#1a6b5a] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#145447] disabled:opacity-50 transition-colors"
+                className="w-full sm:w-auto rounded-xl gradient-brand px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-900/20 hover:shadow-lg hover:shadow-emerald-900/25 disabled:opacity-50 transition-all"
               >
                 Save Family
               </button>
@@ -135,15 +155,17 @@ export default function FamilySetupPage() {
           </form>
         </div>
       ) : (
-        <div className="flex items-center justify-between rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-900/20 p-4">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 size={20} className="text-[#1a6b5a]" />
+        <div className="flex items-center justify-between rounded-xl border border-emerald-200/60 dark:border-emerald-900/50 bg-emerald-50/40 dark:bg-emerald-950/20 p-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
+              <CheckCircle2 size={18} className="text-[#1a6b5a]" />
+            </div>
             <span className="text-sm text-stone-700 dark:text-zinc-300">
               Family Profile: <strong className="font-semibold text-stone-900 dark:text-zinc-100">{family.name}</strong>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-[#1a6b5a] bg-emerald-100 px-2 py-1 rounded-md font-medium">
+            <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-100/80 dark:bg-emerald-900/40 px-2.5 py-1 rounded-lg">
               Active
             </span>
             <button
@@ -154,7 +176,7 @@ export default function FamilySetupPage() {
                 await resetSession();
                 setResetting(false);
               }}
-              className="inline-flex items-center gap-1 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 px-2 py-1 text-[11px] font-semibold text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+              className="inline-flex items-center gap-1 rounded-lg border border-red-200/60 dark:border-red-900/50 bg-red-50/60 dark:bg-red-950/30 px-2 py-1 text-[11px] font-semibold text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/50 transition-all"
             >
               {resetting ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
               Start Fresh
@@ -163,36 +185,38 @@ export default function FamilySetupPage() {
         </div>
       )}
 
-      {/* Step 2: Add Family Member Form */}
+      {/* Step 2: Add Member Form */}
       {family && (
-        <div className="rounded-2xl border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm space-y-4">
+        <div className="card-elevated p-6 space-y-5">
           <h2 className="text-base font-bold text-stone-900 dark:text-zinc-100 flex items-center gap-2">
-            <UserPlus size={18} className="text-[#1a6b5a]" />
-            Add Family Member Form
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-950/40">
+              <UserPlus size={16} className="text-[#1a6b5a]" />
+            </div>
+            Add Family Members
           </h2>
 
           <form onSubmit={onAddMember} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="block text-xs font-mono font-medium text-stone-600 dark:text-zinc-400 mb-1">
-                NAME
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-stone-400 dark:text-zinc-500 mb-1.5">
+                Name
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Rajesh Sharma"
-                className="w-full rounded-xl border border-stone-300 dark:border-zinc-600 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 dark:bg-zinc-700 dark:text-zinc-200 dark:placeholder-zinc-400"
+                className="w-full rounded-xl border border-stone-200 dark:border-zinc-700 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-stone-50/30 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono font-medium text-stone-600 dark:text-zinc-400 mb-1">
-                RELATIONSHIP
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-stone-400 dark:text-zinc-500 mb-1.5">
+                Relationship
               </label>
               <select
                 value={relationship}
                 onChange={(e) => setRelationship(e.target.value)}
-                className="w-full rounded-xl border border-stone-300 dark:border-zinc-600 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-white dark:bg-zinc-700 dark:text-zinc-200"
+                className="w-full rounded-xl border border-stone-200 dark:border-zinc-700 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-white dark:bg-zinc-800 dark:text-zinc-200"
               >
                 {RELATIONSHIPS.map((r) => (
                   <option key={r.value} value={r.value}>
@@ -203,53 +227,53 @@ export default function FamilySetupPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono font-medium text-stone-600 dark:text-zinc-400 mb-1">
-                AGE
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-stone-400 dark:text-zinc-500 mb-1.5">
+                Age
               </label>
               <input
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
                 placeholder="42"
-                className="w-full rounded-xl border border-stone-300 dark:border-zinc-600 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 dark:bg-zinc-700 dark:text-zinc-200 dark:placeholder-zinc-400"
+                className="w-full rounded-xl border border-stone-200 dark:border-zinc-700 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-stone-50/30 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono font-medium text-stone-600 dark:text-zinc-400 mb-1">
-                CITY
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-stone-400 dark:text-zinc-500 mb-1.5">
+                City
               </label>
               <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Mumbai"
-                className="w-full rounded-xl border border-stone-300 dark:border-zinc-600 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 dark:bg-zinc-700 dark:text-zinc-200 dark:placeholder-zinc-400"
+                className="w-full rounded-xl border border-stone-200 dark:border-zinc-700 px-3.5 py-2.5 text-sm focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 bg-stone-50/30 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500"
               />
             </div>
 
-            <div className="sm:col-span-2 lg:col-span-4 pt-2">
+            <div className="sm:col-span-2 lg:col-span-4 pt-1">
               <button
                 type="submit"
                 disabled={busy || !name.trim()}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1a6b5a] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#145447] disabled:opacity-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-xl gradient-brand px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-900/20 hover:shadow-lg disabled:opacity-50 transition-all"
               >
-                <Plus size={18} />
-                + Add Member
+                <Plus size={16} />
+                Add Member
               </button>
             </div>
           </form>
         </div>
       )}
 
-      {/* Step 3: Members List */}
+      {/* Step 3: Members Grid */}
       {members.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-stone-900 dark:text-zinc-100">
               Family Members ({members.length})
             </h2>
-            <span className="text-xs text-stone-500 dark:text-zinc-400">Ready for policy assignment</span>
+            <span className="text-[11px] font-medium text-stone-400 dark:text-zinc-500">Ready for policy assignment</span>
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -264,16 +288,16 @@ export default function FamilySetupPage() {
               return (
                 <div
                   key={m.id}
-                  className="flex items-center justify-between rounded-xl border border-stone-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-2xs hover:border-stone-300 dark:hover:border-zinc-600 transition-all"
+                  className="card-elevated flex items-center justify-between p-4 hover:scale-[1.01] transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0f2922] font-mono font-bold text-emerald-300 text-sm border border-emerald-900">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl gradient-hero font-mono font-bold text-emerald-300 text-sm shadow-sm">
                       {initials}
                     </div>
                     <div>
                       <h3 className="font-semibold text-stone-900 dark:text-zinc-100 text-sm">{m.name}</h3>
-                      <p className="text-xs text-stone-500 dark:text-zinc-400 capitalize">
-                        {m.relationship} {m.age != null ? `· ${m.age}` : ""} {m.city ? `· ${m.city}` : ""}
+                      <p className="text-xs text-stone-400 dark:text-zinc-500 capitalize">
+                        {m.relationship} {m.age != null ? `· ${m.age}y` : ""} {m.city ? `· ${m.city}` : ""}
                       </p>
                     </div>
                   </div>
@@ -286,26 +310,26 @@ export default function FamilySetupPage() {
 
       {/* Error Alert */}
       {(localError || error) && (
-        <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 p-4 text-sm text-red-700 dark:text-red-400">
+        <div className="rounded-xl border border-red-200/60 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 p-4 text-sm text-red-700 dark:text-red-400">
           {localError || error}
         </div>
       )}
 
-      {/* Demo Pre-loader Shortcut + Primary CTA Button */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-300/80 dark:border-zinc-700">
+      {/* CTA Footer */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-stone-200/60 dark:border-zinc-800">
         <button
           type="button"
           onClick={loadDemoData}
           disabled={busy}
-          className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-900/30 px-4 py-2.5 text-xs font-semibold text-[#1a6b5a] hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors"
+          className="inline-flex items-center gap-2 rounded-xl border border-emerald-200/80 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/30 px-4 py-2.5 text-xs font-semibold text-[#1a6b5a] dark:text-emerald-400 hover:bg-emerald-100/80 dark:hover:bg-emerald-950/50 transition-all"
         >
-          <Sparkles size={16} className="text-[#1a6b5a]" />
+          <Sparkles size={14} className="text-[#1a6b5a]" />
           Quick Demo: Load Sharma Family (4 members)
         </button>
 
         <Link
           href="/upload"
-          className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] dark:bg-zinc-100 px-8 py-3 text-sm font-semibold text-white dark:text-zinc-900 shadow-md hover:bg-black dark:hover:bg-zinc-200 transition-all ${
+          className={`inline-flex items-center justify-center gap-2 rounded-xl bg-stone-900 dark:bg-zinc-100 px-8 py-3 text-sm font-semibold text-white dark:text-zinc-900 shadow-lg shadow-stone-900/20 hover:shadow-xl hover:bg-stone-800 dark:hover:bg-zinc-200 transition-all ${
             members.length === 0 ? "opacity-50 pointer-events-none" : ""
           }`}
         >

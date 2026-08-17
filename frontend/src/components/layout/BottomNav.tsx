@@ -22,7 +22,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-stone-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 backdrop-blur px-2 md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-stone-200/60 dark:border-zinc-800 glass px-2 md:hidden">
       {NAV_ITEMS.map((item) => {
         const Icon = item.icon;
         const active = pathname === item.href;
@@ -30,14 +30,16 @@ export function BottomNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex flex-col items-center justify-center py-1 px-3 rounded-lg text-xs transition-colors ${
+            className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-xs transition-all duration-200 ${
               active
                 ? "text-[#1a6b5a] font-semibold"
-                : "text-stone-500 dark:text-zinc-400 hover:text-stone-800 dark:hover:text-zinc-200"
+                : "text-stone-400 dark:text-zinc-500 hover:text-stone-600 dark:hover:text-zinc-300"
             }`}
           >
-            <Icon size={18} className={active ? "text-[#1a6b5a]" : "text-stone-400 dark:text-zinc-500"} />
-            <span className="mt-1 text-[11px]">{item.label}</span>
+            <div className={`p-1 rounded-lg ${active ? "bg-emerald-50 dark:bg-emerald-950/40" : ""}`}>
+              <Icon size={18} className={active ? "text-[#1a6b5a]" : ""} />
+            </div>
+            <span className="mt-0.5 text-[10px]">{item.label}</span>
           </Link>
         );
       })}

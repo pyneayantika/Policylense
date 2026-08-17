@@ -7,7 +7,7 @@ import { usePolicies } from "@/context/PolicyContext";
 import { askPolicy } from "@/lib/api";
 import type { ChatMessage as ChatMessageType } from "@/lib/types";
 import { ChatMessage } from "@/components/chat/ChatMessage";
-import { Send, Sparkles, Bot } from "lucide-react";
+import { Send, Sparkles, Bot, MessageCircle } from "lucide-react";
 
 const SUGGESTED_CHIPS = [
   "What are the major gaps in my coverage?",
@@ -83,35 +83,35 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="max-w-4xl space-y-6 flex flex-col h-[calc(100vh-10rem)]">
-      {/* Header Banner */}
-      <div className="flex items-center justify-between border-b border-stone-300/80 dark:border-zinc-700 pb-4 shrink-0">
+    <div className="max-w-4xl space-y-5 flex flex-col h-[calc(100vh-10rem)]">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-stone-200/60 dark:border-zinc-800 pb-4 shrink-0">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-stone-900 dark:text-zinc-100">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl gradient-brand text-white shadow-sm">
+              <MessageCircle size={16} />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight text-stone-900 dark:text-zinc-100">
               Ask PolicyLens
             </h1>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-mono font-bold text-[#1a6b5a] border border-emerald-300">
-              <Sparkles size={12} /> AI-Powered
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-0.5 text-[10px] font-semibold text-[#1a6b5a] dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800">
+              <Sparkles size={10} /> AI-Powered
             </span>
           </div>
-          <p className="text-xs text-stone-500 dark:text-zinc-400 mt-0.5">
+          <p className="text-xs text-stone-400 dark:text-zinc-500 mt-1 ml-[42px]">
             Grounded in your uploaded policy clauses · Answers cite specific section numbers
           </p>
         </div>
       </div>
 
-      {/* Message Thread */}
+      {/* Messages */}
       <div className="flex-1 overflow-y-auto space-y-4 pr-1">
         {messages.map((m, idx) => (
-          <ChatMessage
-            key={idx}
-            message={m}
-          />
+          <ChatMessage key={idx} message={m} />
         ))}
 
         {busy && (
-          <div className="flex items-center gap-2 text-xs font-medium text-stone-500 dark:text-zinc-400 animate-pulse bg-stone-100 dark:bg-zinc-800 p-3 rounded-2xl w-fit">
+          <div className="flex items-center gap-2.5 text-xs font-medium text-stone-500 dark:text-zinc-400 animate-pulse card-elevated p-3.5 w-fit">
             <Bot size={16} className="text-[#1a6b5a] animate-spin" />
             <span>PolicyLens is retrieving relevant policy clauses...</span>
           </div>
@@ -119,10 +119,10 @@ export default function ChatPage() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Suggested Follow-up Chips */}
-      <div className="shrink-0 space-y-2 pt-2 border-t border-stone-200 dark:border-zinc-700">
-        <span className="text-[11px] font-mono font-semibold text-stone-500 dark:text-zinc-400 uppercase">
-          Suggested Follow-ups:
+      {/* Suggested Chips */}
+      <div className="shrink-0 space-y-2 pt-2 border-t border-stone-200/60 dark:border-zinc-800">
+        <span className="text-[10px] font-semibold text-stone-400 dark:text-zinc-600 uppercase tracking-wider">
+          Suggested:
         </span>
         <div className="flex flex-wrap gap-2">
           {SUGGESTED_CHIPS.map((chip) => (
@@ -131,9 +131,9 @@ export default function ChatPage() {
               type="button"
               disabled={busy}
               onClick={() => handleSend(chip)}
-              className="rounded-full border border-emerald-300 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-900/30 px-3.5 py-1.5 text-xs font-medium text-[#1a6b5a] hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors shadow-2xs"
+              className="rounded-full border border-emerald-200/60 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20 px-3.5 py-1.5 text-xs font-medium text-[#1a6b5a] dark:text-emerald-400 hover:bg-emerald-100/60 dark:hover:bg-emerald-950/40 hover:border-emerald-300 transition-all"
             >
-              {chip} →
+              {chip}
             </button>
           ))}
         </div>
@@ -145,19 +145,19 @@ export default function ChatPage() {
           e.preventDefault();
           handleSend();
         }}
-        className="flex items-center gap-2 shrink-0"
+        className="flex items-center gap-2.5 shrink-0"
       >
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about your policies..."
-          className="flex-1 rounded-2xl border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 py-3 text-sm dark:text-zinc-200 focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 shadow-2xs"
+          className="flex-1 rounded-2xl border border-stone-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-5 py-3.5 text-sm dark:text-zinc-200 focus:border-[#1a6b5a] focus:outline-none focus:ring-2 focus:ring-[#1a6b5a]/20 shadow-sm placeholder:text-stone-400 dark:placeholder:text-zinc-500"
         />
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1a6b5a] text-white shadow-sm hover:bg-[#145447] disabled:opacity-50 transition-colors shrink-0"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-2xl gradient-brand text-white shadow-md shadow-emerald-900/20 hover:shadow-lg disabled:opacity-50 transition-all shrink-0"
         >
           <Send size={18} />
         </button>

@@ -9,7 +9,7 @@ import { useProtection } from "@/context/ProtectionContext";
 import { PolicyUploader } from "@/components/upload/PolicyUploader";
 import { UploadProgress } from "@/components/upload/UploadProgress";
 import { ApiError, getFamily as apiFetchFamily, getPolicyStatus } from "@/lib/api";
-import { FileText, CheckCircle2, ArrowRight, Sparkles, Home, Clock, AlertCircle } from "lucide-react";
+import { FileText, CheckCircle2, ArrowRight, Sparkles, Home, Clock, AlertCircle, Upload } from "lucide-react";
 import type { Policy } from "@/lib/types";
 
 function PolicyCard({ policy, memberName }: { policy: Policy; memberName?: string }) {
@@ -17,51 +17,43 @@ function PolicyCard({ policy, memberName }: { policy: Policy; memberName?: strin
   const isComplete = status === "completed";
   const isFailed = status === "failed";
 
-  const borderColor = isFailed
-    ? "border-red-200 dark:border-red-800"
-    : isComplete
-    ? "border-emerald-200 dark:border-emerald-800"
-    : "border-amber-200 dark:border-amber-800";
-  const bgColor = isFailed
-    ? "bg-red-50/40 dark:bg-red-900/20"
-    : isComplete
-    ? "bg-white dark:bg-zinc-800"
-    : "bg-amber-50/40 dark:bg-amber-900/20";
-  const iconBg = isFailed
-    ? "bg-red-100 text-red-700"
-    : isComplete
-    ? "bg-emerald-100 text-[#1a6b5a]"
-    : "bg-amber-100 text-amber-800";
-
   const typeLabel = (policy.policy_type || "insurance").replace(/_/g, " ");
   const displayType = typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1) + " Insurance";
 
   return (
-    <div className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border ${borderColor} ${bgColor} p-4 shadow-2xs`}>
+    <div className={`card-elevated flex flex-wrap items-center justify-between gap-3 p-4 ${
+      isFailed ? "!border-red-200 dark:!border-red-900/50" : ""
+    }`}>
       <div className="flex items-center gap-3">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconBg}`}>
+        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+          isFailed
+            ? "bg-red-50 dark:bg-red-950/30 text-red-600"
+            : isComplete
+            ? "bg-emerald-50 dark:bg-emerald-950/30 text-[#1a6b5a]"
+            : "bg-amber-50 dark:bg-amber-950/30 text-amber-700"
+        }`}>
           <FileText size={20} />
         </div>
         <div>
           <p className="font-semibold text-stone-900 dark:text-zinc-100 text-sm">
             {policy.pdf_filename || "Policy document"}
           </p>
-          <p className="text-xs text-stone-500 dark:text-zinc-400">
+          <p className="text-xs text-stone-400 dark:text-zinc-500">
             {[displayType, memberName].filter(Boolean).join(" · ")}
           </p>
         </div>
       </div>
       {isFailed ? (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-3 py-1 text-xs font-mono font-bold text-red-700">
-          <AlertCircle size={14} /> Failed
+        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 dark:bg-red-950/30 px-3 py-1 text-xs font-semibold text-red-600 dark:text-red-400 border border-red-200/60 dark:border-red-900/50">
+          <AlertCircle size={13} /> Failed
         </span>
       ) : isComplete ? (
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-mono font-bold text-[#1a6b5a]">
-          <CheckCircle2 size={14} /> Complete
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-950/30 px-3 py-1 text-xs font-semibold text-[#1a6b5a] dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800">
+          <CheckCircle2 size={13} /> Complete
         </span>
       ) : (
-        <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-mono font-bold text-amber-800">
-          <Clock size={14} className="animate-spin" /> Processing
+        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-950/30 px-3 py-1 text-xs font-semibold text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800">
+          <Clock size={13} className="animate-spin" /> Processing
         </span>
       )}
     </div>
@@ -111,6 +103,7 @@ export default function UploadPage() {
         return 0;
       case "cleaning":
       case "detecting_sections":
+      case "validating_content":
       case "chunking":
         return 1;
       case "embedding":
@@ -161,7 +154,6 @@ export default function UploadPage() {
     setStep(next);
   }
 
-  // Pre-loaded sample demo policies shortcut
   async function loadDemoPolicies() {
     setFailed(false);
     setError(null);
@@ -176,28 +168,32 @@ export default function UploadPage() {
 
   return (
     <div className="max-w-3xl space-y-8">
-      {/* Header Banner */}
-      <div className="flex flex-col gap-2 border-b border-stone-300/80 dark:border-zinc-700 pb-5">
-        <div className="flex items-center gap-2">
-          <Link
-            href="/"
-            className="text-xs font-semibold text-stone-500 dark:text-zinc-400 hover:text-stone-900 dark:hover:text-zinc-100 transition-colors"
-          >
-            ← Back
-          </Link>
-          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#1a6b5a] bg-emerald-100/80 dark:bg-emerald-900/30 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-700">
-            Step 2 of 3
-          </span>
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-2xl gradient-hero p-8 text-white">
+        <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-3">
+            <Link
+              href="/"
+              className="text-xs font-medium text-emerald-200/70 hover:text-white transition-colors"
+            >
+              ← Back
+            </Link>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold">
+              <Upload size={12} />
+              Step 2 of 3
+            </span>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Upload Policies
+          </h1>
+          <p className="mt-2 text-sm text-emerald-100/80 leading-relaxed max-w-lg">
+            Upload your insurance policy PDFs. We&apos;ll extract and analyze the coverage details automatically.
+          </p>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-zinc-100">
-          Upload Policies
-        </h1>
-        <p className="text-sm text-stone-600 dark:text-zinc-400 leading-relaxed">
-          Upload your insurance policy PDFs. We&apos;ll extract and analyze the coverage details automatically.
-        </p>
       </div>
 
-      {/* Main Upload Form */}
+      {/* Uploader */}
       {family && members.length > 0 ? (
         <PolicyUploader
           members={members}
@@ -220,37 +216,38 @@ export default function UploadPage() {
         />
       ) : null}
 
-      {/* Live Upload Progress */}
       <UploadProgress step={step} failed={failed} error={error} />
 
-      {/* Uploaded Policy Cards — driven by real data */}
+      {/* Uploaded Policy Cards */}
       {policies.length > 0 && (
         <div className="space-y-3">
           <h2 className="text-base font-bold text-stone-900 dark:text-zinc-100">Uploaded Policy Documents</h2>
-          {policies.map((policy) => (
-            <PolicyCard
-              key={policy.id}
-              policy={policy}
-              memberName={policy.member_id ? memberNameById[policy.member_id] : undefined}
-            />
-          ))}
+          <div className="space-y-3">
+            {policies.map((policy) => (
+              <PolicyCard
+                key={policy.id}
+                policy={policy}
+                memberName={policy.member_id ? memberNameById[policy.member_id] : undefined}
+              />
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Demo Pre-loader Shortcut & View Dashboard CTA */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-300/80 dark:border-zinc-700">
+      {/* CTA Footer */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-stone-200/60 dark:border-zinc-800">
         <button
           type="button"
           onClick={loadDemoPolicies}
-          className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2.5 text-xs font-semibold text-[#1a6b5a] hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors"
+          className="inline-flex items-center gap-2 rounded-xl border border-emerald-200/80 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/30 px-4 py-2.5 text-xs font-semibold text-[#1a6b5a] dark:text-emerald-400 hover:bg-emerald-100/80 dark:hover:bg-emerald-950/50 transition-all"
         >
-          <Sparkles size={16} />
+          <Sparkles size={14} />
           Pre-load Sharma Family Policies (HDFC Ergo + Max Life)
         </button>
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] dark:bg-zinc-100 px-8 py-3 text-sm font-semibold text-white dark:text-zinc-900 shadow-md hover:bg-black dark:hover:bg-zinc-200 transition-all"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-stone-900 dark:bg-zinc-100 px-8 py-3 text-sm font-semibold text-white dark:text-zinc-900 shadow-lg shadow-stone-900/20 hover:shadow-xl hover:bg-stone-800 dark:hover:bg-zinc-200 transition-all"
         >
           <Home size={16} />
           <span>View Dashboard</span>
