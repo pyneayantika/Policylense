@@ -24,6 +24,7 @@ CLAUSE_NUM = re.compile(
 
 MAX_TOKENS = 1000
 MIN_TOKENS = 50
+OVERLAP_SENTENCES = 2
 
 
 def _tokens(text: str) -> int:
@@ -157,7 +158,8 @@ class StructureAwareChunker:
             trial = " ".join(buf + [sentence]).strip()
             if buf and _tokens(trial) > MAX_TOKENS:
                 pieces.append(self._clone(chunk, " ".join(buf).strip()))
-                buf = [sentence]
+                overlap = buf[-OVERLAP_SENTENCES:] if len(buf) >= OVERLAP_SENTENCES else buf[:]
+                buf = overlap + [sentence]
             else:
                 buf.append(sentence)
         if buf:

@@ -89,9 +89,9 @@ class ChatService:
             if citations and not evidence:
                 evidence = [{"clause": c, "text": "", "section": ""} for c in citations]
             top = chunks[0].final_score if chunks else 0
-            if top >= 0.55:
+            if top >= 2.0:
                 confidence = "high"
-            elif top >= 0.3:
+            elif top >= 0.0:
                 confidence = "medium"
             else:
                 confidence = "low"
