@@ -17,6 +17,7 @@ from core.chunking.metadata_enricher import MetadataEnricher
 from core.chunking.structure_chunker import StructureAwareChunker
 from core.extraction.policy_extractor import PolicyFactExtractor
 from core.pdf_engine.cleaner import PolicyTextCleaner
+from core.pdf_engine.content_validator import validate_insurance_content
 from core.pdf_engine.extractor import PolicyPDFExtractor
 from core.pdf_engine.section_detector import PolicySectionDetector
 from core.rag.runtime import get_embedder, get_llm_router, get_vector_store
@@ -94,6 +95,13 @@ class IngestionService:
 
             self._status(db, policy, "cleaning")
             cleaned = PolicyTextCleaner().clean(extracted.raw_text)
+
+            self._status(db, policy, "validating_content")
+            is_insurance, rejection_msg = validate_insurance_content(cleaned)
+            if not is_insurance:
+                self._fail(db, policy, rejection_msg)
+                return
+
             policy.raw_text = cleaned
             db.commit()
 
