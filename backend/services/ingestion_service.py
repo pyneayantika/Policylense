@@ -20,7 +20,7 @@ from core.pdf_engine.cleaner import PolicyTextCleaner
 from core.pdf_engine.content_validator import validate_insurance_content
 from core.pdf_engine.extractor import PolicyPDFExtractor
 from core.pdf_engine.section_detector import PolicySectionDetector
-from core.rag.runtime import get_embedder, get_llm_router, get_vector_store
+from core.rag.runtime import get_embedder, get_llm_router, get_vector_store, reset_vector_store
 from core.rules.engine import RulesEngine
 from db.database import SessionLocal
 from db.models import Family, FamilyMember, Policy, new_id
@@ -118,9 +118,19 @@ class IngestionService:
             vectors = embedder.embed_batch([c.text for c in chunks])
             for chunk, vector in zip(chunks, vectors):
                 chunk.embedding = vector
-            store = get_vector_store()
-            store.delete_policy_chunks(family_id, policy_id)
-            store.add_chunks(family_id, chunks)
+            try:
+                store = get_vector_store()
+                store.delete_policy_chunks(family_id, policy_id)
+                store.add_chunks(family_id, chunks)
+            except Exception as vec_exc:
+                if "acquire_write" in str(vec_exc) or "no such table" in str(vec_exc):
+                    print(f"[ingest] ChromaDB corrupt, resetting: {vec_exc}")
+                    reset_vector_store()
+                    store = get_vector_store()
+                    store.delete_policy_chunks(family_id, policy_id)
+                    store.add_chunks(family_id, chunks)
+                else:
+                    raise
 
             self._status(db, policy, "extracting_facts")
             extractor = PolicyFactExtractor(get_llm_router())
@@ -139,7 +149,10 @@ class IngestionService:
         except Exception as exc:
             print(f"[ingest] failed: {exc}")
             if policy is not None:
-                self._fail(db, policy, str(exc))
+                msg = str(exc)
+                if "acquire_write" in msg or "no such table" in msg:
+                    msg = "Vector database was reset due to corruption. Please re-upload this policy."
+                self._fail(db, policy, msg)
         finally:
             db.close()
 

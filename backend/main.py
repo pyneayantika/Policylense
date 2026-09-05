@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.middleware.error_handler import register_error_handlers
 from api.routes import chat, concepts, family, policy, protection, scenario
 from config import get_settings
+from core.rag.runtime import get_vector_store
 from db.database import create_all_tables
 
 settings = get_settings()
@@ -47,6 +48,7 @@ def on_startup() -> None:
     for d in [settings.upload_dir, settings.chroma_path]:
         Path(d).mkdir(parents=True, exist_ok=True)
     create_all_tables()
+    get_vector_store()
     print("Policy Intelligence backend started")
 
 

@@ -26,6 +26,11 @@ def get_vector_store() -> PolicyVectorStore:
     return _store
 
 
+def reset_vector_store() -> None:
+    global _store
+    _store = None
+
+
 def get_llm_router() -> LLMRouter:
     global _router
     if _router is None:
