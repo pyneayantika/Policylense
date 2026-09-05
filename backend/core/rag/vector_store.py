@@ -7,6 +7,7 @@ family keeps demo queries simple. Metadata values must be str/int/float/bool.
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 
 import chromadb
@@ -26,14 +27,43 @@ class PolicyVectorStore:
     def __init__(self, persist_path: str | None = None) -> None:
         path = persist_path or get_settings().chroma_path
         Path(path).mkdir(parents=True, exist_ok=True)
-        self._client = chromadb.PersistentClient(path=path)
-        print(f"[chroma] PersistentClient at {path}")
+        self._path = path
+        self._client = self._create_client()
+
+    def _create_client(self):
+        try:
+            client = chromadb.PersistentClient(path=self._path)
+            client.heartbeat()
+            print(f"[chroma] PersistentClient at {self._path}")
+            return client
+        except Exception as exc:
+            print(f"[chroma] corrupt database ({exc}); resetting storage at {self._path}")
+            shutil.rmtree(self._path, ignore_errors=True)
+            Path(self._path).mkdir(parents=True, exist_ok=True)
+            client = chromadb.PersistentClient(path=self._path)
+            print(f"[chroma] PersistentClient recreated at {self._path}")
+            return client
+
+    def _reset_client(self) -> None:
+        print(f"[chroma] resetting corrupt client at {self._path}")
+        shutil.rmtree(self._path, ignore_errors=True)
+        Path(self._path).mkdir(parents=True, exist_ok=True)
+        self._client = chromadb.PersistentClient(path=self._path)
 
     def get_or_create_collection(self, family_id: str):
-        return self._client.get_or_create_collection(
-            name=_safe_name(family_id),
-            metadata={"hnsw:space": "cosine"},
-        )
+        try:
+            return self._client.get_or_create_collection(
+                name=_safe_name(family_id),
+                metadata={"hnsw:space": "cosine"},
+            )
+        except Exception as exc:
+            if "acquire_write" in str(exc) or "no such table" in str(exc):
+                self._reset_client()
+                return self._client.get_or_create_collection(
+                    name=_safe_name(family_id),
+                    metadata={"hnsw:space": "cosine"},
+                )
+            raise
 
     def add_chunks(self, family_id: str, chunks: list[PolicyChunk]) -> None:
         if not chunks:
@@ -55,15 +85,28 @@ class PolicyVectorStore:
             }
             for c in chunks
         ]
-        # Chroma has a max batch; 100 is safe on free-tier RAM.
         batch = 100
-        for i in range(0, len(ids), batch):
-            collection.upsert(
-                ids=ids[i : i + batch],
-                documents=documents[i : i + batch],
-                embeddings=embeddings[i : i + batch],
-                metadatas=metadatas[i : i + batch],
-            )
+        try:
+            for i in range(0, len(ids), batch):
+                collection.upsert(
+                    ids=ids[i : i + batch],
+                    documents=documents[i : i + batch],
+                    embeddings=embeddings[i : i + batch],
+                    metadatas=metadatas[i : i + batch],
+                )
+        except Exception as exc:
+            if "acquire_write" in str(exc) or "no such table" in str(exc):
+                self._reset_client()
+                collection = self.get_or_create_collection(family_id)
+                for i in range(0, len(ids), batch):
+                    collection.upsert(
+                        ids=ids[i : i + batch],
+                        documents=documents[i : i + batch],
+                        embeddings=embeddings[i : i + batch],
+                        metadatas=metadatas[i : i + batch],
+                    )
+            else:
+                raise
         print(f"[chroma] upserted {len(chunks)} chunks into {_safe_name(family_id)}")
 
     def delete_policy_chunks(self, family_id: str, policy_id: str) -> None:
