@@ -130,6 +130,15 @@ export default function UploadPage() {
           stopPolling(-1);
           setFailed(true);
           setError(res.error || "Ingestion failed");
+          // Refresh the list so the card shows "Failed" instead of a stuck "Processing".
+          if (family) {
+            try {
+              const fam = await apiFetchFamily(family.id);
+              if (fam.policies) hydratePolicies(fam.policies);
+            } catch {
+              /* card badge is cosmetic; the error banner already explains */
+            }
+          }
           return;
         }
         setStep(statusToStep(res.status));

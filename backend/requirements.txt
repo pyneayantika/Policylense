@@ -5,7 +5,9 @@ pydantic>=2.0
 pydantic-settings>=2.0
 sqlalchemy>=2.0
 pymupdf>=1.23.0
-chromadb>=0.4.0
+# Pinned: Chroma manages its own SQLite schema; an unpinned major upgrade on a
+# persistent volume leaves the on-disk schema out of step (no such table: acquire_write).
+chromadb==1.5.9
 sentence-transformers>=2.2.0
 google-genai>=1.0.0
 groq>=0.4.0

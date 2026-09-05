@@ -27,8 +27,12 @@ def get_vector_store() -> PolicyVectorStore:
 
 
 def reset_vector_store() -> None:
+    """Wipe vector storage and reopen it (clears Chroma's client cache correctly)."""
     global _store
-    _store = None
+    if _store is not None:
+        _store.hard_reset()
+    else:
+        _store = PolicyVectorStore()
 
 
 def get_llm_router() -> LLMRouter:
