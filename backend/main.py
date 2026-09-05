@@ -48,7 +48,12 @@ def on_startup() -> None:
     for d in [settings.upload_dir, settings.chroma_path]:
         Path(d).mkdir(parents=True, exist_ok=True)
     create_all_tables()
-    get_vector_store()
+    try:
+        # Runs a real write probe and rebuilds Chroma storage if its schema is broken,
+        # so a bad persistent volume is healed at boot instead of on the first upload.
+        get_vector_store()
+    except Exception as exc:
+        print(f"[chroma] WARNING: vector store unavailable at startup: {exc}")
     print("Policy Intelligence backend started")
 
 
